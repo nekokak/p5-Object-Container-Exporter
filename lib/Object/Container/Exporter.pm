@@ -18,7 +18,7 @@ sub import {
             push @{"${caller}::ISA"}, $class;
         }
 
-        for my $func (qw/register register_namespace/) {
+        for my $func (qw/register register_namespace register_default_container_name/) {
             my $code = $class->can($func);
             no strict 'refs'; ## no critic.
             *{"$caller\::$func"} = sub { $code->($caller, @_) };
@@ -77,14 +77,16 @@ sub _export_functions {
 sub _export_container {
     my ($class, $caller) = @_;
 
-    if ($caller->can('container')) { die qq{can't export container for $caller. container already defined in $caller.} }
+    my $container_name = $class->instance->{_default_container_name} || 'container';
+
+    if ($caller->can($container_name)) { die qq{can't export '$container_name' for $caller. '$container_name' already defined in $caller.} }
     my $code = sub {
         my $target = shift;
         return $target ? $class->get($target) : $class;
     };
     {
         no strict 'refs';
-        *{"${caller}::container"} = $code;
+        *{"${caller}::${container_name}"} = $code;
     }
 }
 
@@ -120,6 +122,12 @@ sub register_namespace {
     };
 
     $self->{_register_namespace}->{$method} = $code;
+}
+
+sub register_default_container_name {
+    my ($self, $name) = @_;
+    $self = $self->instance unless ref $self;
+    $self->{_default_container_name} = $name;
 }
 
 sub get {
