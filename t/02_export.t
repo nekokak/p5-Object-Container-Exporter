@@ -21,5 +21,13 @@ subtest 'export form' => sub {
     ok $@;
 };
 
+subtest 'export form' => sub {
+    isa_ok form('Foo'), 'Mock::Api::Form::Foo';
+    is form('foo')->fillin, 'filled';
+
+    eval { form('Oops') };
+    ok $@;
+};
+
 done_testing;
 
