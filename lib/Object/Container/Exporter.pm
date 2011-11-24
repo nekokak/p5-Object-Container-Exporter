@@ -47,7 +47,7 @@ sub load_class {
     Class::Load::load_class($pkg);
 }
 
-sub camelize {
+sub _camelize {
     my $s = shift;
     join('', map{ ucfirst $_ } split(/(?<=[A-Za-z])_(?=[A-Za-z])|\b/, $s));
 }
@@ -63,7 +63,7 @@ sub _export_functions {
 
         my $code = $self->{_register_namespace}->{$name} || sub {
             my $target = shift;
-            my $container_name = join '::', $self->base_name, camelize($name), camelize($target);
+            my $container_name = join '::', $self->base_name, _camelize($name), _camelize($target);
             return $target ? $self->get($container_name) : $self;
         };
 
@@ -113,10 +113,10 @@ sub register_namespace {
     $self = $self->instance unless ref $self;
     my $class = ref $self;
 
-    $pkg = camelize($pkg);
+    $pkg = _camelize($pkg);
     my $code = sub {
         my $target = shift;
-        my $container_name = join '::', $pkg, camelize($target);
+        my $container_name = join '::', $pkg, _camelize($target);
         Class::Load::load_class($container_name);
         return $target ? $class->get($container_name) : $class;
     };
