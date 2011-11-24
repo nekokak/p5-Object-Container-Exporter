@@ -2,6 +2,7 @@ use inc::Module::Install;
 name 'Object-Container-Exporter';
 all_from 'lib/Object/Container/Exporter.pm';
 
+requires 'Class::Singleton';
 requires 'Class::Load';
 
 test_requires 'Test::More' => '0.94';

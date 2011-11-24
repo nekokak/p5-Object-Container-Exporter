@@ -4,7 +4,7 @@ use lib './t/lib';
 use Test::More;
 use Mock::AnotherContainer;
 
-subtest 'export original container function' => sub {
+subtest 'export specific container function' => sub {
 
     eval { obj('foo') };
     isa_ok obj('foo'), 'Mock::Foo';
@@ -15,5 +15,3 @@ subtest 'export original container function' => sub {
 };
 
 done_testing;
-
-

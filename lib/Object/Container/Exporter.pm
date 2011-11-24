@@ -18,7 +18,7 @@ sub import {
             push @{"${caller}::ISA"}, $class;
         }
 
-        for my $func (qw/register register_namespace register_container_func_name/) {
+        for my $func (qw/register register_namespace register_default_container_name/) {
             my $code = $class->can($func);
             no strict 'refs'; ## no critic.
             *{"$caller\::$func"} = sub { $code->($caller, @_) };
@@ -27,11 +27,11 @@ sub import {
         return;
     }
     elsif(scalar(@opts) >= 1 and ($opts[0]||'') !~ /^-no_export/i) {
-        $class->_export_functions($caller => @opts);#このclassってすでに$selfじゃない?
+        $class->_export_functions($caller => @opts);
     }
 
     unless (($opts[0]||'') =~ /^-no_export$/i) {
-        $class->_export_container_func($caller);
+        $class->_export_container($caller);
     }
 }
 
@@ -74,21 +74,19 @@ sub _export_functions {
     }
 }
 
-sub _export_container_func {
-    my ($self, $caller) = @_;
+sub _export_container {
+    my ($class, $caller) = @_;
 
-    $self = $self->instance unless ref $self;
+    my $container_name = $class->instance->{_default_container_name} || 'container';
 
-    my $container_func = $self->{_container_func} || 'container';
-
-    if ($caller->can($container_func)) { die qq{can't export $container_func for $caller. container already defined in $caller.} }
+    if ($caller->can($container_name)) { die qq{can't export '$container_name' for $caller. '$container_name' already defined in $caller.} }
     my $code = sub {
         my $target = shift;
-        return $target ? $self->get($target) : $self;
+        return $target ? $class->get($target) : $class;
     };
     {
         no strict 'refs';
-        *{"${caller}::${container_func}"} = $code;
+        *{"${caller}::${container_name}"} = $code;
     }
 }
 
@@ -126,11 +124,10 @@ sub register_namespace {
     $self->{_register_namespace}->{$method} = $code;
 }
 
-sub register_container_func_name {
-    my ($self, $container_func) = @_;
+sub register_default_container_name {
+    my ($self, $name) = @_;
     $self = $self->instance unless ref $self;
-
-    $self->{_container_func} = $container_func;
+    $self->{_default_container_name} = $name;
 }
 
 sub get {

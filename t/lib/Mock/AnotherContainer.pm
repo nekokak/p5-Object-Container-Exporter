@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Object::Container::Exporter -base;
 
-register_container_func_name('obj');
+register_default_container_name 'obj';
 
 register 'foo' => sub {
     my $self = shift;
