@@ -158,7 +158,7 @@ __END__
 
 =head1 NAME
 
-Object::Container::Exporter - strong showcut to your classes.
+Object::Container::Exporter - strong shortcuts to your classes.
 
 =head1 SYNOPSIS
 
@@ -170,24 +170,24 @@ Object::Container::Exporter - strong showcut to your classes.
         │   └── User.pm
         ├── Container.pm
         └── Foo.pm
-
+    
     #your sub class
     package MyApp::Container;
     use Object::Container::Exporter -base;
-
+    
     register_namespace form => 'Mock::Api::Form';
-
+    
     register 'foo' => sub {
         my $self = shift;
         $self->load_class('Mock::Foo');
         Mock::Foo->new;
     };
-
+    
     #your main script
     use MyApp::Container qw/api form/;
     
     container('foo')->say;
-
+    
     my $row = api('User')->fetch;
     
     form('foo')->fillin($row->get_columns);
@@ -236,8 +236,7 @@ Examples are:
     package MyApp::Container;
     use Object::Container::Exporter -base;
 
-    register_namespace api => 'Mock::Model::Api::User';
-    register_namespace cmd => 'Mock::Model::Api::Password';
+    register_namespace cmd => 'Mock::Model::Api::Command';
 
     #your main script
     use MyApp::Container qw/api cmd/;
@@ -262,7 +261,7 @@ Examples are:
     package MyApp::Container;
     use Object::Container::Exporter -base;
 
-    #register($register_class_name,$code);
+    #register($register_name, $initializer_code);
     register db => sub {
         my $self = shift;
         $self->load_class('DBI');
@@ -274,11 +273,7 @@ Examples are:
     };
 
     #register($load_class,@opts);
-    register 'DBI' => ('dbi:mysql:sandbox', 'root', 'pass', +{
-        mysql_enable_utf8 => 1,
-        PrintError        => 0,
-        RaiseError        => 1,
-    },);
+    register 'WWW::Mechanize', @args;
 
 =head2 register_namespace
 
@@ -376,6 +371,10 @@ Example is:
 =head1 AUTHOR
 
 Atsushi Kobayashi E<lt>nekokak _at_ gmail _dot_ comE<gt>
+
+=head1 CONTRIBUTORS
+
+Hiroyuki Akabane: hirobanex
 
 =head1 THANKS
 
