@@ -19,6 +19,8 @@ t/01_base.t
 t/02_export.t
 t/03_no_export.t
 t/04_remove.t
+t/05_change_default_container_name.t
+t/lib/Mock/AnotherContainer.pm
 t/lib/Mock/Api/Form/Foo.pm
 t/lib/Mock/Api/User.pm
 t/lib/Mock/Container.pm
