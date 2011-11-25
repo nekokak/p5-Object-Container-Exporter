@@ -4,7 +4,7 @@ use warnings;
 use parent 'Class::Singleton';
 use Class::Load ();
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 sub import {
     my ($class, @opts) = @_;
@@ -163,13 +163,13 @@ Object::Container::Exporter - strong shortcuts to your classes.
 =head1 SYNOPSIS
 
     #your application tree
-    └── MyApp
-        ├── Api
-        │   ├── Form
-        │   │   └── Foo.pm
-        │   └── User.pm
-        ├── Container.pm
-        └── Foo.pm
+    `-- MyApp
+        |-- Api
+        |   |-- Form
+        |   |   `-- Foo.pm
+        |   `-- User.pm
+        |-- Container.pm
+        `-- Foo.pm
     
     #your sub class
     package MyApp::Container;
@@ -205,10 +205,10 @@ Examples are:
 
     #your application tree
 
-    └── MyApp
-        ├── Api
-        │   └── Password.pm
-        └── Container.pm
+    `-- MyApp
+        |-- Api
+        |   `-- Password.pm
+        `-- Container.pm
 
     #your sub class
     package MyApp::Container;
@@ -224,13 +224,13 @@ When you wanna export shortcut function to call the class object in any director
 Examples are:
 
     #your application tree
-    └── MyApp
-        ├── Model
-        │   ├── Api
-        │   │   └── User.pm
-        │   └── Command
-        │   　   └── Password.pm
-        └── Container.pm
+    `-- MyApp
+        |-- Model
+        |   |-- Api
+        |   |   `-- User.pm
+        |   `-- Command
+        |   　   `-- Password.pm
+        `-- Container.pm
 
     #your sub class
     package MyApp::Container;
