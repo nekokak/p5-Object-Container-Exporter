@@ -165,9 +165,9 @@ Object::Container::Exporter - strong shortcuts to your classes.
     #your application tree
     `-- MyApp
         |-- Api
-        |   |-- Form
-        |   |   `-- Foo.pm
-        |   `-- User.pm
+        |   |-- Form
+        |   |   `-- Foo.pm
+        |   `-- User.pm
         |-- Container.pm
         `-- Foo.pm
     
@@ -207,7 +207,7 @@ Examples are:
 
     `-- MyApp
         |-- Api
-        |   `-- Password.pm
+        |   `-- Password.pm
         `-- Container.pm
 
     #your sub class
@@ -226,10 +226,10 @@ Examples are:
     #your application tree
     `-- MyApp
         |-- Model
-        |   |-- Api
-        |   |   `-- User.pm
-        |   `-- Command
-        |   　   `-- Password.pm
+        |   |-- Api
+        |   |   `-- User.pm
+        |   `-- Command
+        |       `-- Password.pm
         `-- Container.pm
 
     #your sub class
