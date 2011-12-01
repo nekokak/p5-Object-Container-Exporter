@@ -4,7 +4,7 @@ use warnings;
 use parent 'Class::Singleton';
 use Class::Load ();
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 sub import {
     my ($class, @opts) = @_;
